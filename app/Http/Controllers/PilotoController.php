@@ -59,8 +59,11 @@ class PilotoController extends Controller
     public function edit(Piloto $piloto)
     {
         $piloto->load('historialEducativo');
+        $assignedBusIds = Piloto::whereNotNull('bus_id')
+            ->where('id', '!=', $piloto->id)
+            ->pluck('bus_id');
         $buses = Bus::with('linea')
-            ->where(fn($q) => $q->doesntHave('piloto')->orWhere('id', $piloto->bus_id))
+            ->whereNotIn('id', $assignedBusIds)
             ->orderBy('placa')
             ->get();
         return view('pilotos.edit', compact('piloto', 'buses'));

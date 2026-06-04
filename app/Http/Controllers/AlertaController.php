@@ -32,7 +32,7 @@ class AlertaController extends Controller
     {
         $alerta->update([
             'atendida'     => true,
-            'atendida_por' => auth()->id(),
+            'atendida_por' => auth()->user()->id,
         ]);
 
         return back()->with('success', "Alerta #{$alerta->id} marcada como atendida.");

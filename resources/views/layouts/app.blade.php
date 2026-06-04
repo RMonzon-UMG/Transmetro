@@ -272,7 +272,12 @@
                 <a href="{{ route('alertas.index') }}" class="{{ request()->routeIs('alertas.*') ? 'active' : '' }}">
                     <span class="nav-icon"><i class="fas fa-bell"></i></span>
                     Alertas
-                    @php $pendientes = \App\Models\Alerta::where('atendida', false)->count(); @endphp
+                    @php
+                        $user = auth()->user();
+                        $pendientes = ($user->esOperador() && $user->estacion_id)
+                            ? \App\Models\Alerta::where('atendida', false)->where('estacion_id', $user->estacion_id)->count()
+                            : \App\Models\Alerta::where('atendida', false)->count();
+                    @endphp
                     @if($pendientes > 0)
                         <span class="badge bg-danger ms-auto">{{ $pendientes }}</span>
                     @endif

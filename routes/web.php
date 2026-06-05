@@ -27,10 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('lineas', LineaController::class);
 
     // Módulo Estaciones (Tarea 7)
-    Route::resource('estaciones', EstacionController::class);
+    Route::resource('estaciones', EstacionController::class)->parameters(['estaciones' => 'estacion']);
 
     // Módulo Buses (Tarea 8)
-    Route::resource('buses', BusController::class);
+    Route::resource('buses', BusController::class)->parameters(['buses' => 'bus']);
 
     // Módulo Pilotos (Tarea 9)
     Route::resource('pilotos', PilotoController::class);

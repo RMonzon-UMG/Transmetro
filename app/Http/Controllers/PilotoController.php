@@ -78,7 +78,7 @@ class PilotoController extends Controller
             'email'     => ['required', 'email', 'max:150', 'unique:pilotos,email,' . $piloto->id],
             'bus_id'    => ['nullable', 'exists:buses,id'],
             'historial'             => ['nullable', 'array'],
-            'historial.*.id'              => ['nullable', 'exists:historial_educativos,id'],
+            'historial.*.id'              => ['nullable', 'exists:historial_educativo,id'],
             'historial.*.institucion'     => ['required_with:historial', 'string', 'max:150'],
             'historial.*.titulo'          => ['required_with:historial', 'string', 'max:150'],
             'historial.*.anio_graduacion' => ['required_with:historial', 'integer', 'min:1950', 'max:' . date('Y')],

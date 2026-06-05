@@ -15,17 +15,21 @@ class DashboardController extends Controller
     {
         $operador = auth()->user();
 
+        $alertaQuery = Alerta::where('atendida', false);
+        if ($operador->esOperador() && $operador->estacion_id) {
+            $alertaQuery->where('estacion_id', $operador->estacion_id);
+        }
+
         $stats = [
             'lineas'    => Linea::count(),
             'estaciones'=> Estacion::count(),
             'buses'     => Bus::count(),
             'pilotos'   => Piloto::count(),
-            'alertas'   => Alerta::where('atendida', false)->count(),
+            'alertas'   => (clone $alertaQuery)->count(),
         ];
 
         // Alertas pendientes (últimas 10)
-        $alertas = Alerta::with('estacion')
-            ->where('atendida', false)
+        $alertas = (clone $alertaQuery)->with('estacion')
             ->orderByDesc('fecha_hora')
             ->limit(10)
             ->get();

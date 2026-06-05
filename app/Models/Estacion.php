@@ -14,7 +14,7 @@ class Estacion extends Model {
     public function registroEsperas() { return $this->hasMany(RegistroEspera::class); }
     public function operadores() { return $this->hasMany(Operador::class); }
     public function porcentajeOcupacion(): float {
-        if ($this->capacidad_maxima === 0) return 0;
+        if (empty($this->capacidad_maxima)) return 0;
         return round(($this->ocupacion_actual / $this->capacidad_maxima) * 100, 1);
     }
     public function generarAlertaSiNecesario(): void {
